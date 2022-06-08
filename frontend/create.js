@@ -7,17 +7,14 @@ let subHeader = $("#sub-header");
 if (user != {}) {
     if (user.roleId == 1) {
         subHeader.append(`
-            <a href="">Создать курс</a>
+            <a href="create.html">Создать курс</a>
             <a href="courses.html">Курсы</a>
-            <a onclick="logOut()">Выйти</a>
+            <p onclick="logOut()">Выйти</p>
         `);
     }
 
     else if (user.roleId == 2) {
-        subHeader.append(`
-            <a href="courses.html">Курсы</a>
-            <a onclick="logOut()">Выйти</a>
-        `);
+        location.href = "index.html"
     }
 }
 
@@ -28,6 +25,7 @@ else {
 let titleInput = $("#title");
 let descriptionInput = $("#description");
 let createBtn = $("#create_btn");
+let date = new Date();
 
 createBtn.click(function () {
     let settings = {
@@ -35,10 +33,10 @@ createBtn.click(function () {
         method: "post",
         data: {
             title: titleInput.val(),
-            owner: JSON.parse(localStorage.getItem("user")),
+            owner: localStorage.getItem("user"),
             description: descriptionInput.val(),
             enrolledStudents: [],
-            createdAt: `${getDate()}.${getMonth() + 1}.${getFullYear()}`
+            createdAt: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
         },
         success: (response) => {
             console.log(response);
@@ -47,4 +45,6 @@ createBtn.click(function () {
             console.log("error");
         }
     }
+
+    $.ajax(settings);
 });

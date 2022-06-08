@@ -7,8 +7,8 @@ loginBtn.click(function () {
         url: "http://localhost:8080/users/login",
         method: "post",
         data: {
-            login: loginInput,
-            password: passwordInput
+            login: loginInput.val(),
+            password: passwordInput.val()
         },
         success: (response) => {
             localStorage.setItem("user", JSON.stringify(response));

@@ -1,5 +1,10 @@
+let userA = JSON.parse(localStorage.getItem("user"));
+
+if (userA.roleId == 1) {
+    location.href = "index.html";
+}
+
 let courseInfo = JSON.parse(localStorage.getItem("course"));
-let user = JSON.parse(localStorage.getItem("user"));
 let title = $("#title");
 let owner = $("#owner");
 let desc = $("#desc");
@@ -17,13 +22,10 @@ subBtn.click(function () {
         method: "post",
         data: {
             _id: courseInfo._id,
-            fullName: user.fullName,
-            login: user.login,
-            roleId: user.roleId
+            user: localStorage.getItem("user")
         },
         success: (response) => {
             console.log(response);
-            let sub
         },
         error: () => {
             console.log("ERROR");

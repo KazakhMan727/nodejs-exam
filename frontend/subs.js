@@ -1,16 +1,13 @@
 function logOut () {
     localStorage.removeItem("user");
+    location.href = "login.html";
 }
 
-let user = JSON.parse(localStorage.getItem("user")) || {};
+let user = JSON.parse(localStorage.getItem("user"));
 let subHeader = $("#sub-header");
 if (user != {}) {
     if (user.roleId == 1) {
-        subHeader.append(`
-            <a href="create.html">Создать курс</a>
-            <a href="courses.html">Курсы</a>
-            <p onclick="logOut()">Выйти</p>
-        `);
+        location.href = "index.html";
     }
 
     else if (user.roleId == 2) {
@@ -22,11 +19,11 @@ if (user != {}) {
     }
 }
 
-else if (user == {}) {
+else {
     location.href = "login.html";
 }
 
-let coursesBlock = $("#courses_block");
+let subbedCourses = $("#subbed-courses-block");
 
 async function getCourses () {
     let settings = {
@@ -41,18 +38,12 @@ async function drawCourses () {
     let courses = await getCourses();
     console.log(courses);
     for (let item of courses) {
-        coursesBlock.append(`
-            <div class="course" onclick="courseInfo('${item._id}')">${item.title}</div>
-        `);
-    }
-}
-
-async function courseInfo (courseId) {
-    let courses = await getCourses();
-    for (let item of courses) {
-        if (item._id == courseId) {
-            localStorage.setItem("course", JSON.stringify(item));
-            location.href = "courseinfo.html";
+        for (let i = 0; i < item.enrolledStudents.length; i++) {
+            if (item.enrolledStudents[i].login == user.login) {
+                subbedCourses.append(`
+                    <div class="course" onclick="courseInfo('${item._id}')">${item.title}</div>
+                `);
+            }
         }
     }
 }

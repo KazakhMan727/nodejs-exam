@@ -1,4 +1,3 @@
-const { response } = require("express");
 const express = require("express");
 const coursesRouter = express.Router();
 const models = require("./../Models");
@@ -16,6 +15,7 @@ coursesRouter.get("user/:userId", async (req, res) => {
 
 coursesRouter.post("/", async (req, res) => {
     let {title, owner, description, enrolledStudents, createdAt} = req.body;
+    owner = JSON.parse(owner);
     let newCourse = new models.Course({title, owner, description, enrolledStudents, createdAt});
 
     await newCourse.save();
@@ -23,10 +23,14 @@ coursesRouter.post("/", async (req, res) => {
 });
 
 coursesRouter.post("/enroll", async (req, res) => {
-    let {_id, fullName, login, roleId} = req.body;
-    let enrolledStudent = {fullName, login, roleId};
-    await models.Course.findByIdAndUpdate(_id, {enrolledStudents: enrolledStudent});
-    response.status(200).send("student subscribed");
+    let {_id, user} = req.body;
+    user = JSON.parse(user);
+    let course = await models.Course.findById({_id});
+
+    course.enrolledStudents.push(user);
+
+    await models.Course.findByIdAndUpdate(_id, {enrolledStudents: course.enrolledStudents});
+    res.status(200).send("student subscribed");
 });
 
 module.exports = coursesRouter;

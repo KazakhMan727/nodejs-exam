@@ -7,7 +7,7 @@ let subHeader = $("#sub-header");
 if (user != {}) {
     if (user.roleId == 1) {
         subHeader.append(`
-            <a href="">Создать курс</a>
+            <a href="create.html">Создать курс</a>
             <a href="courses.html">Курсы</a>
             <a onclick="logOut()">Выйти</a>
         `);
@@ -16,6 +16,7 @@ if (user != {}) {
     else if (user.roleId == 2) {
         subHeader.append(`
             <a href="courses.html">Курсы</a>
+            <a href="subs.html">Подписки</a>
             <a onclick="logOut()">Выйти</a>
         `);
     }

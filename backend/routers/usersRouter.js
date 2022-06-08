@@ -20,7 +20,7 @@ usersRouter.post("/login", async (req, res) => {
     let foundUser = await models.User.findOne({login, password});
     
     if (foundUser != null) {
-        res.status(200).send(user);
+        res.status(200).send(foundUser);
     }
 
     else {
