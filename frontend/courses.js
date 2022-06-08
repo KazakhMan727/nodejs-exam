@@ -1,18 +1,38 @@
-async function getCourses () {
+let coursesBlock = $("#courses_block");
+let courses;
+
+function getCourses () {
     let settings = {
         url: "http://localhost:8080/courses",
-        method: "get"
+        method: "get",
+        success: (response) => {
+            console.log(response);
+            courses = response;
+        },
+        error: () => {
+            console.log("ERROR");
+        }
     }
 
-    await $.ajax(settings);
+    $.ajax(settings);
 }
 
 function drawCourses () {
-    let courses = getCourses();
-
-    for (let item of array) {
-
+    for (let item of courses) {
+        coursesBlock.append(`
+            <div class="course" onclick="courseInfo(${item._id})">${item.title}</div>
+        `);
     }
 }
 
+function courseInfo (courseId) {
+    for (let item of courses) {
+        if (item._id == courseId) {
+            localStorage.setItem("course", JSON.stringify(item));
+            location.href = "courseinfo.html";
+        }
+    }
+}
+
+getCourses();
 drawCourses();

@@ -12,7 +12,7 @@ loginBtn.click(function () {
         },
         success: (response) => {
             localStorage.setItem("user", JSON.stringify(response));
-            location.href = "courses.html";
+            location.href = "index.html";
         },
         error: () => {
             console.log("ERROR");

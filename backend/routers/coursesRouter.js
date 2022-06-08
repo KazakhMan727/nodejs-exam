@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const coursesRouter = express.Router();
 const models = require("./../Models");
@@ -25,6 +26,7 @@ coursesRouter.post("/enroll", async (req, res) => {
     let {_id, fullName, login, roleId} = req.body;
     let enrolledStudent = {fullName, login, roleId};
     await models.Course.findByIdAndUpdate(_id, {enrolledStudents: enrolledStudent});
+    response.status(200).send("student subscribed");
 });
 
 module.exports = coursesRouter;
